@@ -12,6 +12,8 @@
     "teams.back": "Back to Teams",
     "teams.failed_to_load": "Failed to load Teams, try again!",
     "teams.unauthorized": "Enauthorized error, try again!",
+    "teams.noInternetConnection": "No Internet connection!",
+    "teams.timeout": "The server did not anservers in time!",
     "logout": "Logout",
     "selected_team.no_team_selected_yet":"No team selected",
     "team_details.name": "Name",

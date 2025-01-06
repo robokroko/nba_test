@@ -27,7 +27,16 @@ class NBATeamListScreen extends StatefulWidget {
 class _NBATeamListScreenState extends State<NBATeamListScreen> {
   @override
   void initState() {
-    context.read<NBATeamsProviderModule>().fetchNBATeams();
+    context.read<NBATeamsProviderModule>().fetchNBATeams().then((error) {
+      if (mounted) {
+        if (error != null) {
+          return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(error.errorKey.tr(), style: const TextStyle(color: primaryLightColor)),
+            backgroundColor: primaryRedColor,
+          ));
+        }
+      }
+    });
     super.initState();
   }
 
@@ -47,7 +56,16 @@ class _NBATeamListScreenState extends State<NBATeamListScreen> {
             child: NBAAppbar(onPressed: () => Scaffold.of(context).openDrawer()),
           ),
           body: RefreshIndicator(
-            onRefresh: () => context.read<NBATeamsProviderModule>().fetchNBATeams(),
+            onRefresh: () => context.read<NBATeamsProviderModule>().fetchNBATeams().then((error) {
+              if (mounted) {
+                if (error != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(error.errorKey.tr(), style: const TextStyle(color: primaryLightColor)),
+                    backgroundColor: primaryRedColor,
+                  ));
+                }
+              }
+            }),
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: Column(

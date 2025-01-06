@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_application/gateways/nba_teams_provider/nba_teams_provider_api.dart';
 import 'package:test_application/modules/nba_teams_provider_module/model.dart';
@@ -55,6 +58,13 @@ class NBATeamsProviderModule extends Bloc<NBATeamsProviderEvent, NBATeamsProvide
         });
       });
     }).catchError((error) {
+      if (error is SocketException) {
+        add(OnFetchTeamsFailed(NBATemasProviderError.noInternetConnection));
+        return NBATemasProviderError.noInternetConnection;
+      } else if (error is TimeoutException) {
+        add(OnFetchTeamsFailed(NBATemasProviderError.timeout));
+        return NBATemasProviderError.timeout;
+      }
       add(OnFetchTeamsFailed(NBATemasProviderError.failedToLoadTeams));
       return NBATemasProviderError.failedToLoadTeams;
     });

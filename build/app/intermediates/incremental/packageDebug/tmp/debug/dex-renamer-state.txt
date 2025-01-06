@@ -1,10 +1,10 @@
-#Mon Jan 06 04:07:23 CET 2025
-base.0=/Users/admin/Documents/test_application/test_application/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
-base.1=/Users/admin/Documents/test_application/test_application/build/app/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
-base.2=/Users/admin/Documents/test_application/test_application/build/app/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
-base.3=/Users/admin/Documents/test_application/test_application/build/app/intermediates/dex/debug/mergeProjectDexDebug/1/classes.dex
-base.4=/Users/admin/Documents/test_application/test_application/build/app/intermediates/dex/debug/mergeProjectDexDebug/13/classes.dex
-base.5=/Users/admin/Documents/test_application/test_application/build/app/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
+#Mon Jan 06 09:29:24 CET 2025
+base.0=/Users/admin/Documents/new_test/build/app/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/Users/admin/Documents/new_test/build/app/intermediates/dex/debug/mergeLibDexDebug/0/classes.dex
+base.2=/Users/admin/Documents/new_test/build/app/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.3=/Users/admin/Documents/new_test/build/app/intermediates/dex/debug/mergeProjectDexDebug/1/classes.dex
+base.4=/Users/admin/Documents/new_test/build/app/intermediates/dex/debug/mergeProjectDexDebug/13/classes.dex
+base.5=/Users/admin/Documents/new_test/build/app/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
 path.0=classes.dex
 path.1=0/classes.dex
 path.2=0/classes.dex

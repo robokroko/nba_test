@@ -1,6 +1,8 @@
 enum NBATemasProviderError {
   failedToLoadTeams('teams.failed_to_load'),
-  unauthorized('teams.unauthorized');
+  unauthorized('teams.unauthorized'),
+  noInternetConnection('teams.noInternetConnection'),
+  timeout('teams.timeout');
 
   const NBATemasProviderError(this.errorKey);
   final String errorKey;

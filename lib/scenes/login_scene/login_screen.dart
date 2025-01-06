@@ -34,7 +34,6 @@ class _LoginScreenState extends State<LoginScreen> {
             backgroundColor: primaryRedColor,
           ));
         }
-
         context.go(NBATeamListScreen.routeName);
       }
     });
