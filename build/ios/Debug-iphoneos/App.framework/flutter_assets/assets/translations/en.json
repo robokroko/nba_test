@@ -1,0 +1,11 @@
+{
+    "login.form.label.user": "User",
+    "login.form.label.password": "Password",
+    "loading":"loading...",
+    "security_action.sign_in": "Login",
+    "nba_teams_provider_scene.title": "NBA Teams",
+    "nba_teams_provider_scene.no_teams": "Sorry, there is NBA Teams yet",
+    "nba_teams_provider_scene.change_favorite_visibility": "Show only favorites",
+    "nba_teams_provider_scene.back": "Back to Teams"
+}
+

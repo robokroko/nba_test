@@ -1,0 +1,23 @@
+{
+    "login.form.label.user": "User",
+    "login.form.label.password": "Password",
+    "login.username.missing": "Usernam missing!",
+    "login.secret.missing": "Password missing!",
+    "login.incorrect_credentials": "Worng password or username!",
+    "loading":"loading...",
+    "login.login": "Login",
+    "teams.title": "NBA Teams",
+    "teams.no_teams": "Sorry, there is no NBA Teams yet",
+    "teams.change_favorite_visibility": "Show only favorites",
+    "teams.back": "Back to Teams",
+    "teams.failed_to_load": "Failed to load Teams, try again!",
+    "teams.unauthorized": "Enauthorized error, try again!",
+    "logout": "Logout",
+    "selected_team.no_team_selected_yet":"No team selected",
+    "team_details.name": "Name",
+    "team_details.city": "City",
+    "team_details.head_coach": "Head Coach",
+    "team_details.division": "Division",
+    "team_details.conference": "Conference"
+}
+
