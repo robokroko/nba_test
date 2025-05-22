@@ -9,13 +9,16 @@ import 'package:test_application/gateways/nba_teams_provider/nba_teams_provider_
 import 'package:test_application/gateways/security/security_api.dart';
 import 'package:test_application/gateways/test_app_http_service.dart';
 import 'package:test_application/gateways/test_app_security_service%20.dart';
+import 'package:test_application/modules/nba_teams_provider_module/model.dart';
 import 'package:test_application/modules/nba_teams_provider_module/nba_teams_provider_module.dart';
+import 'package:test_application/modules/nba_teams_provider_module/nba_teams_provider_repository.dart';
 import 'package:test_application/modules/nba_teams_provider_module/nba_teams_provider_state.dart';
 import 'package:test_application/modules/security_module/security_module.dart';
 import 'package:test_application/modules/security_module/security_state.dart';
 import 'package:test_application/modules/security_module/security_repository.dart';
 import 'package:test_application/store_and_utilities/environment.dart';
 import 'package:test_application/store_and_utilities/secure_storage_store.dart';
+import 'package:test_application/store_and_utilities/store.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +32,8 @@ void main() async {
   final SecurityApi securityApi = HttpSecurityApi(securityRepository, securityService);
   final NBATeamsApi nbaTeamsApi = HttpTeamApi(httpNBATeamsProviderService);
   final SecureStorage secureStorageStore = SecureStorage(secureStorage);
+  final Store<List<Team>> teamStore = MemoryStore({});
+  final NBATeamsRepository nbaTeamsRepository = NBATeamsRepository(teamStore, nbaTeamsApi);
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -41,7 +46,8 @@ void main() async {
     child: MultiBlocProvider(providers: [
       BlocProvider(create: (context) => SecurityModule(SecurityState.initial(), securityApi, securityRepository)),
       BlocProvider<NBATeamsProviderModule>(
-          create: (context) => NBATeamsProviderModule(NBATeamsProviderState.initial(), nbaTeamsApi, secureStorageStore, securityRepository)),
+          create: (context) => NBATeamsProviderModule(NBATeamsProviderState.initial(), nbaTeamsApi, secureStorageStore,
+              securityRepository, nbaTeamsRepository)),
     ], child: const TestApp()),
   ));
 }

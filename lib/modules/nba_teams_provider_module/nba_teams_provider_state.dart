@@ -8,7 +8,8 @@ class NBATeamsProviderState {
 
   NBATeamsProviderState(this.teamsResult, this.selectedTeam, this.onlyFavoriteTeamsVisible);
 
-  factory NBATeamsProviderState.initial() => NBATeamsProviderState(AsyncResult<List<Team>, NBATemasProviderError>.initial(null), null, false);
+  factory NBATeamsProviderState.initial() =>
+      NBATeamsProviderState(AsyncResult<List<Team>, NBATemasProviderError>.initial(null), null, false);
 
   NBATeamsProviderState copyWith({
     AsyncResult<List<Team>, NBATemasProviderError>? teamsResult,
@@ -21,9 +22,13 @@ class NBATeamsProviderState {
         onlyFavoriteTeamsVisible ?? this.onlyFavoriteTeamsVisible,
       );
 
-  NBATeamsProviderState copyWithTeamsResult({AsyncProgress? progress, Set<NBATemasProviderError>? errors, List<Team>? result}) => copyWith(
-      teamsResult: teamsResult.copyWith(
-          progress: progress ?? teamsResult.progress, errors: errors ?? teamsResult.errors, result: result ?? teamsResult.result));
+  NBATeamsProviderState copyWithTeamsResult(
+          {AsyncProgress? progress, Set<NBATemasProviderError>? errors, List<Team>? result}) =>
+      copyWith(
+          teamsResult: teamsResult.copyWith(
+              progress: progress ?? teamsResult.progress,
+              errors: errors ?? teamsResult.errors,
+              result: result ?? teamsResult.result));
 }
 
 abstract class NBATeamsProviderEvent {
@@ -58,6 +63,13 @@ class OnFetchTeamsSucceeded extends NBATeamsProviderEvent {
   }
 }
 
+class OnFetchTeamsCompleted extends NBATeamsProviderEvent {
+  @override
+  NBATeamsProviderState reducer(NBATeamsProviderState state) {
+    return state.copyWithTeamsResult(progress: AsyncProgress.idle, errors: <NBATemasProviderError>{});
+  }
+}
+
 class OnChangeTeamElementFavorite extends NBATeamsProviderEvent {
   final int id;
 
@@ -73,7 +85,8 @@ class OnChangeTeamElementFavorite extends NBATeamsProviderEvent {
       return team;
     }).toList();
 
-    return state.copyWithTeamsResult(progress: AsyncProgress.idle, result: checkedTeams, errors: <NBATemasProviderError>{});
+    return state
+        .copyWithTeamsResult(progress: AsyncProgress.idle, result: checkedTeams, errors: <NBATemasProviderError>{});
   }
 }
 

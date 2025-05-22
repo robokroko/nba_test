@@ -37,7 +37,7 @@ Future<String> _generateRandomAccessToken() {
 Future<bool> _verifyCrendentials(RequestConfig requestConfig) {
   final authHeader = requestConfig.headers?['Authorization'];
   if (authHeader != null && authHeader.startsWith('Basic ')) {
-    final encodedCredentials = authHeader.substring(6); // Remove 'Basic ' prefix
+    final encodedCredentials = authHeader.substring(6);
     final decodedCredentials = utf8.decode(base64Decode(encodedCredentials));
     final parts = decodedCredentials.split(':');
     if (parts.length == 2) {

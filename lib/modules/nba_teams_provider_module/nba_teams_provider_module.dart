@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_application/gateways/nba_teams_provider/nba_teams_provider_api.dart';
 import 'package:test_application/modules/nba_teams_provider_module/model.dart';
+import 'package:test_application/modules/nba_teams_provider_module/nba_teams_provider_repository.dart';
 import 'package:test_application/modules/nba_teams_provider_module/nba_teams_provider_state.dart';
 import 'package:test_application/modules/security_module/model.dart';
 import 'package:test_application/modules/security_module/security_repository.dart';
@@ -13,15 +14,60 @@ class NBATeamsProviderModule extends Bloc<NBATeamsProviderEvent, NBATeamsProvide
   final NBATeamsApi _nbaTeamsApi;
   final SecureStorage _secureStorage;
   final SecurityRepository _securityRepository;
+  final NBATeamsRepository _nbaTeamsRepository;
 
   NBATeamsProviderModule(
-    super.initialState,
-    this._nbaTeamsApi,
-    this._secureStorage,
-    this._securityRepository,
-  ) {
+      super.initialState, this._nbaTeamsApi, this._secureStorage, this._securityRepository, this._nbaTeamsRepository) {
     on<NBATeamsProviderEvent>((event, emit) {
       emit(event.reducer(state));
+    });
+  }
+
+  Future<NBATemasProviderError?> getOrSyncNBATeams() {
+    add(OnFetchTeamsStarted());
+    return resolveUser().then<NBATemasProviderError?>((user) {
+      if (user == null) {
+        add(OnFetchTeamsFailed(NBATemasProviderError.unauthorized));
+        return Future.value();
+      }
+
+      return _nbaTeamsRepository.getTeams().getOrSync().then<NBATemasProviderError?>((teams) {
+        if (teams == null) {
+          add(OnFetchTeamsSucceeded(teams));
+        }
+        return null;
+      });
+    }).catchError((error) {
+      if (error is SocketException) {
+        add(OnFetchTeamsFailed(NBATemasProviderError.noInternetConnection));
+        return NBATemasProviderError.noInternetConnection;
+      } else if (error is TimeoutException) {
+        add(OnFetchTeamsFailed(NBATemasProviderError.timeout));
+        return NBATemasProviderError.timeout;
+      }
+      add(OnFetchTeamsFailed(NBATemasProviderError.failedToLoadTeams));
+      return NBATemasProviderError.failedToLoadTeams;
+    });
+  }
+
+  Future<NBATemasProviderError?> getAndSyncNBATeams() {
+    add(OnFetchTeamsStarted());
+    return resolveUser().then<NBATemasProviderError?>((user) {
+      if (user == null) {
+        add(OnFetchTeamsFailed(NBATemasProviderError.unauthorized));
+        return Future.value();
+      }
+      Completer<NBATemasProviderError?> completer = Completer<NBATemasProviderError?>();
+      _nbaTeamsRepository.getTeams().getAndSync().stream.listen((List<Team> teams) {
+        add(OnFetchTeamsSucceeded(teams));
+      }, onDone: () {
+        add(OnFetchTeamsCompleted());
+        completer.complete(null);
+      }, onError: (dynamic error) {
+        add(OnFetchTeamsFailed(NBATemasProviderError.failedToLoadTeams));
+        return NBATemasProviderError.failedToLoadTeams;
+      });
+      return completer.future;
     });
   }
 
